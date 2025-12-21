@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% set title = "Dashboard" %}
+
+{% block content %}
+  <div class="p-4 bg-light border rounded-3">
+    <h1 class="h3 mb-2">Welcome to your Personal Finance Dashboard</h1>
+    <p class="mb-0">
+      Track your net income and get a quick estimate of how taxes may affect your take-home pay.
+    </p>
+  </div>
+
+  <div class="row mt-4 g-3">
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h2 class="h5 card-title">Most Recent Activity</h2>
+          {% if last_activity %}
+            <div class="text-muted small">{{ last_activity.ts }}</div>
+            <div class="mt-2">{{ last_activity.message }}</div>
+          {% else %}
+            <div class="text-muted">No activity yet. Go to Net Income to get started.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h2 class="h5 card-title">Latest Saved Net Income</h2>
+          {% if last_entry %}
+            <div class="text-muted small">{{ last_entry.ts }}</div>
+            <div class="mt-2">
+              <div><strong>{{ last_entry.label }}</strong></div>
+              <div>
+                {{ "%.2f"|format(last_entry.net_amount) }} ({{ last_entry.frequency }})
+              </div>
+              <div class="text-muted small mt-1">
+                Annual equivalent: {{ "%.2f"|format(last_entry.net_annual_equivalent) }}
+              </div>
+            </div>
+          {% else %}
+            <div class="text-muted">Nothing saved yet.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
